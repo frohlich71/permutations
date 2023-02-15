@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Main {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        solution.permute(new int[]{1, 2, 3, 4});
-
+        System.out.print(solution.permute(new int[]{1,2,3}));
+//        solution.permute(new int[]{1, 2,3});
 
     }
 }
@@ -15,32 +16,36 @@ class Solution {
     public List<List<Integer>> permute(int[] nums) {
 
         List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> permutation = new ArrayList<>();
 
-        traverse(nums, ans, permutation, 0, 0);
-        System.out.print(ans.toString());
+        backtrack(ans, new ArrayList<>(), nums);
+
         return ans;
     }
 
-    public void traverse (int nums[], List<List<Integer>> ans, List<Integer> permutation , int i, int first) {
-
-        if (permutation.size() == nums.length) {
-            List<Integer> temp = new ArrayList<>(permutation);
-            ans.add(temp);
+    public void backtrack(List<List<Integer>> ans, ArrayList perms ,int[] nums) {
+        if (perms.size() == nums.length) {
+            ans.add(new ArrayList<>(perms));
             return;
         }
 
-        if (permutation.size() < nums.length) {
-            permutation.add(nums[first]);
 
-            for (int j = i + 1; j < nums.length; j++) {
-                permutation.add(nums[j]);
+        for (int num : nums) {
+
+            if (perms.contains(num)) {
+                continue;
             }
 
-            traverse(nums, ans, permutation,i + 1, first);
-            permutation.remove(permutation.size() - 1);
+            perms.add(num);
+            backtrack(ans, perms, nums);
+            perms.remove(perms.size() - 1);
+
         }
 
     }
 
 }
+
+
+
+
+
